@@ -1,5 +1,5 @@
 const db = require("../models");
-const documento = db.documentos;
+const estadPrestamo = db.estadPrestamo;
 const Op = db.Sequelize.Op;
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -7,7 +7,17 @@ exports.create = (req, res) => {
 };
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-   
+    estadPrestamo.findAll({attributes:['CI',    'FechaEntrega', 'FechaDevolucion',  'Categoria',    'Facultad'], 
+    where:{CI:{[Op.eq]:req.params.id}}})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving."
+      });
+    });
 };
 // Find a single Tutorial with an id
 exports.findOne = async (req, res) => {

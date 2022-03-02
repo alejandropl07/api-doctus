@@ -25,4 +25,6 @@ db.sequelize = sequelize;
 db.libros = require("./libros.js")(sequelize, Sequelize);
 db.ejemplares = require("./ejemplares.js")(sequelize, Sequelize);
 db.estudiantes = require("./estudiantes.js")(sequelize, Sequelize);
+db.documentos = require("./documentos.js")(sequelize, Sequelize);
+db.estadPrestamo = require("./estadPrestamo.js")(sequelize, Sequelize);
 module.exports = db;
