@@ -23,4 +23,5 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.libros = require("./libros.js")(sequelize, Sequelize);
+db.ejemplares = require("./ejemplares.js")(sequelize, Sequelize);
 module.exports = db;
