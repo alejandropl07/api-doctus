@@ -10,6 +10,14 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     acquire: dbConfig.pool.acquire,
     idle: dbConfig.pool.idle,
   },
+  dialectOptions: {
+    // Observe the need for this nested `options` field for MSSQL
+      options: {
+        encrypt: false,
+        enableArithAbort: false,
+        trustServerCertificate: true
+      }
+    }
 });
 const db = {};
 db.Sequelize = Sequelize;
