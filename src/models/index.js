@@ -29,4 +29,5 @@ db.documentos = require("./documentos.js")(sequelize, Sequelize);
 db.estadPrestamo = require("./estadPrestamo.js")(sequelize, Sequelize);
 db.prestamo = require("./prestamo.js")(sequelize, Sequelize);
 db.sancionados = require("./sancionados.js")(sequelize, Sequelize);
+db.users = require("./users.js")(sequelize, Sequelize);
 module.exports = db;

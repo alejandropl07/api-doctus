@@ -30,6 +30,7 @@ require('./routes/documentosRoutes')(app);
 require('./routes/estadPrestamoRoutes')(app);
 require('./routes/prestamoRoutes')(app);
 require('./routes/sancionadosRoutes')(app);
+require('./routes/usersRoutes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
