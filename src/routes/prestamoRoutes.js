@@ -12,7 +12,7 @@ module.exports = app => {
     // Update a Tutorial with id
     router.put("/:id", prestamo.update);
     // Delete a Tutorial with id
-    router.delete("/:id", prestamo.delete);
+    router.delete("/:codBar", prestamo.delete);
     // Delete all Tutorials
     router.delete("/", prestamo.deleteAll);
     // Buscar libros por codigo de barra

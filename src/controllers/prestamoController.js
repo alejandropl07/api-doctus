@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 exports.create = (req, res) => {
  
 };
-// Retrieve all Tutorials from the database.
+// BUSCAR PRESTAMOS POR UN CI
 exports.findAll = (req, res) => {
     prestamo.findAll({attributes:['CodBarras', 'CI',    'FechaEntrega', 'FechaDevolucion',  'condicion'], 
     where:{CI:{[Op.eq]:req.params.id}}})
@@ -20,18 +20,47 @@ exports.findAll = (req, res) => {
     });
   });
 };
-// Find a single Prestamo with an id
-exports.findOne = async (req, res) => {
-    
+// BUSCA UN PRESTAMO POR UN CARNET Y UN CODIGO DE BARRAS
+exports.findOne = (req, res) => {
+  const ci = req.params.ci;
+  const codBar = req.params.codBar;
+  libro.findByPk(id)
+    .then(data => {
+     res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Prestamo with ci=" + ci
+      });
+    });
 };
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
  
 };
 
-// Delete a Tutorial with the specified id in the request
+// ELIMINAR PRESTAMO POR UN CODIGO DE BARRAS
 exports.delete = (req, res) => {
- 
+  const codBar = req.params.codBar;
+  prestamo.destroy({
+    where: { CodBarras: codBar }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Prestamo was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Prestamo with id=${codBar}. Maybe Libro was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Libro with id=" + codBar
+      });
+    });
 };
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
