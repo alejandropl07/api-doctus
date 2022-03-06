@@ -15,5 +15,7 @@ module.exports = app => {
     router.delete("/:id", prestamo.delete);
     // Delete all Tutorials
     router.delete("/", prestamo.deleteAll);
+    // Buscar libros por codigo de barra
+    router.get("/books/codBar", prestamo.findBooks);
     app.use('/api/prestamo', router);
   };

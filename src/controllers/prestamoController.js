@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 const prestamo= db.prestamo;
 const Op = db.Sequelize.Op;
@@ -19,7 +20,7 @@ exports.findAll = (req, res) => {
     });
   });
 };
-// Find a single Tutorial with an id
+// Find a single Prestamo with an id
 exports.findOne = async (req, res) => {
     
 };
@@ -39,4 +40,18 @@ exports.deleteAll = (req, res) => {
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
   
+};
+
+//Busca en libros y ejemplares por un codigo de barra
+exports.findBooks = (req, res) => {
+  sequelize.query("SELECT libros.id, libros.Titulo, libros.Autor, ejemplares.CodBarras FROM libros INNER JOIN ejemplares ON libros.id = ejemplares.IDLibro WHERE ejemplares.CodBarras= '101136'")
+  .then(([results, metadata]) => {
+    res.send(results);
+  })
+  .catch(err => {
+  res.status(500).send({
+    message:
+      err.message || "Some error occurred while retrieving."
+  });
+});  
 };
