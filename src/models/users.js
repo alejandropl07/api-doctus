@@ -4,10 +4,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       username: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       password: {
-        type:   Sequelize.STRING
+        type:   Sequelize.TEXT
       },
       Nombre: {
         type: Sequelize.STRING
@@ -22,8 +22,9 @@ module.exports = (sequelize, Sequelize) => {
         type:   Sequelize.STRING
       },
       intBarCode: {
-        type:   Sequelize.NUMBER
+        type:   Sequelize.BOOLEAN
       }
     });
+
     return Users;
   };
