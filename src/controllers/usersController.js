@@ -2,11 +2,7 @@ const db = require("../models");
 const user= db.users;
 const Op = db.Sequelize.Op;
 const bcrypt = require("bcryptjs");
-// Create and Save a new Tutorial
-exports.create = (req, res) => {
- 
-};
-// Retrieve all Tutorials from the database.
+
 exports.findAll = (req, res) => {
     user.findAll({attributes:['usercode', 'username',    'Nombre', 'levelauth'], 
     where:{usercode:{[Op.eq]:req.params.id}}})
@@ -22,7 +18,16 @@ exports.findAll = (req, res) => {
   };
 // Find a single Tutorial with an id
 exports.findOne = async (req, res) => {
-  
+  const id = req.params.id;
+  await user.findByPk(id)
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error retrieving User with id=" + id
+    });
+  });
 };
 // Update a Tutorial by the id in the request
 exports.updatePassword = (req, res) => {
@@ -52,6 +57,6 @@ exports.encryptPassword = async (password)  =>  {
   return  await bcrypt.hash(password, salt)
 };
 
-exports.comparePassword = async (password,  receivedPassword)  =>  {
-  return  await bcrypt.compare(password, receivedPassword)
+exports.comparePassword = async (receivedPassword, password )  =>  {
+  return  await bcrypt.compare(receivedPassword, password )
 };

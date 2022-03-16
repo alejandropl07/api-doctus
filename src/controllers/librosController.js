@@ -25,16 +25,16 @@ exports.findAll = (req, res) => {
 };
 // Find a single Tutorial with an id
 exports.findOne = async (req, res) => {
-    const id = req.params.id;
-    await libro.findByPk(id)
-      .then(data => {
-       res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving Libro with id=" + id
-        });
+  const id = req.params.id;
+  await libro.findByPk(id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Libro with id=" + id
       });
+    });
 };
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
