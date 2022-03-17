@@ -3,8 +3,8 @@ const user= db.users;
 const Op = db.Sequelize.Op;
 const bcrypt = require("bcryptjs");
 
-exports.findAll = (req, res) => {
-    user.findAll({attributes:['usercode', 'username',    'Nombre', 'levelauth'], 
+exports.findAll = async (req, res) => {
+    await user.findAll({attributes:['usercode', 'username',    'Nombre', 'levelauth'], 
     where:{usercode:{[Op.eq]:req.params.id}}})
     .then(data => {
       res.send(data);
