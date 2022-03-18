@@ -30,11 +30,11 @@ exports.findOne = async (req, res) => {
   });
 };
 // Update a Tutorial by the id in the request
-exports.updatePassword = (req, res) => {
+exports.updatePassword = async (req, res) => {
   const {password}   =   req.body; 
-  const usercode  = req.params.id;
+  const username  = req.params.id;
 
-  db.sequelize.query(`UPDATE users SET users.password  = '${password}' WHERE users.usercode = '${usercode}'`)
+  await db.sequelize.query(`UPDATE users SET users.password  = '${await this.encryptPassword (password)}' WHERE users.username LIKE '${username}'`)
   .then(([results, metadata]) => {
   res.send(results);
   console.log(results);
@@ -49,7 +49,19 @@ exports.updatePassword = (req, res) => {
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
- 
+  const username  = req.params.id;
+
+  db.sequelize.query(`DELETE users WHERE users.username LIKE '${username}'`)
+  .then(([results, metadata]) => {
+  res.send(results);
+  console.log(results);
+  })
+  .catch(err => {
+  res.status(500).send({
+  message:
+    err.message || "Ha ocurrido un error."
+  });
+});
 };
 
 exports.encryptPassword = async (password)  =>  {
