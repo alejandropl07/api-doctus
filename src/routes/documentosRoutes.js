@@ -4,11 +4,11 @@ module.exports = app => {
     // Create a new Tutorial
     router.post("/", documentos.create);
     // Retrieve all Tutorials
-    router.get("/", documentos.findAll);
-    // Retrieve all published Tutorials
-    router.get("/published", documentos.findAllPublished);
+ /*   router.get("/", documentos.findAll);
     // Retrieve a single Tutorial with id
     router.get("/:id", documentos.findOne);
+    // Documentos mas demandados*/
+    router.get("/docMasDem", documentos.docMasDemandados);
     // Update a Tutorial with id
     router.put("/:id", documentos.update);
     // Delete a Tutorial with id
