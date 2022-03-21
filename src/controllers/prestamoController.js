@@ -4,7 +4,19 @@ const prestamo= db.prestamo;
 const Op = db.Sequelize.Op;
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
- 
+  const {codBarras, ci, fechaEntrega, fechaDevolucion, codeUser, analizado, typeUser, condicion, anno}   =   req.body; 
+
+  sequelize.query(`INSERT INTO prestamo (prestamo.CodBarras, prestamo.CI, prestamo.FechaEntrega, prestamo.FechaDevolucion, prestamo.CodeUser, prestamo.Analizado, prestamo.type_user, prestamo.condicion, prestamo.anno) VALUES ('${codBarras}', '${ci}', '${fechaEntrega}', '${fechaDevolucion}', '${codeUser}', '${analizado}', '${typeUser}', '${condicion}', '${anno}')`)
+  .then(([results, metadata]) => {
+  res.send(results);
+  console.log(results);
+  })
+  .catch(err => {
+  res.status(500).send({
+  message:
+    err.message || "Ha ocurrido un error."
+  });
+  });
 };
 // BUSCAR PRESTAMOS POR UN CI
 exports.findAll = (req, res) => {

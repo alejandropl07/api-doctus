@@ -1,9 +1,22 @@
 const db = require("../models");
+const { sequelize } = require("../models");
 const sancionado= db.sancionados;
 const Op = db.Sequelize.Op;
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
- 
+  const {ci, fechaInicio, fechaFin, motivo, observaciones}   =   req.body; 
+
+  sequelize.query(`INSERT INTO sancionados (sancionados.CI, sancionados.FechaInicio, sancionados.FechaFin, sancionados.Motivo, sancionados.Observaciones) VALUES ('${ci}', '${fechaInicio}', '${fechaFin}', '${motivo}', '${observaciones}')`)
+  .then(([results, metadata]) => {
+  res.send(results);
+  console.log(results);
+  })
+  .catch(err => {
+  res.status(500).send({
+  message:
+    err.message || "Ha ocurrido un error."
+  });
+  });
 };
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
