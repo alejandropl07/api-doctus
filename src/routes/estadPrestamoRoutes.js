@@ -4,11 +4,9 @@ module.exports = app => {
     // Create a new Tutorial
     router.post("/", estadPrestamo.create);
     // Retrieve all Tutorials
-    router.get("/:id", estadPrestamo.findAll);
+  //  router.get("/:id", estadPrestamo.findAll);
     // Retrieve all published Tutorials
-    router.get("/published", estadPrestamo.findAllPublished);
-    // Retrieve a single Tutorial with id
-    router.get("/:id", estadPrestamo.findOne);
+    router.get("/prestPorUsuario", estadPrestamo.prestamoPorUsuario);
     // Update a Tutorial with id
     router.put("/:id", estadPrestamo.update);
     // Delete a Tutorial with id

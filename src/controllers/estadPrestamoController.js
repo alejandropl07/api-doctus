@@ -1,3 +1,4 @@
+const {sequelize} = require("../models");
 const db = require("../models");
 const estadPrestamo = db.estadPrestamo;
 const Op = db.Sequelize.Op;
@@ -20,8 +21,77 @@ exports.findAll = (req, res) => {
     });
 };
 // Find a single Tutorial with an id
-exports.findOne = async (req, res) => {
-    
+exports.prestamoPorUsuario = async (req, res) => {
+  if(req.body.tipoUsuario === "Todos" ){
+    console.log("TODOS");
+    const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes, Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
+      WHERE (Year(FechaEntrega)='${req.body.anno}') 
+      GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
+      HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
+    .then(([results, metadata]) => {
+        res.send(results);
+        console.log(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
+}
+else if(req.body.tipoUsuario === "Estudiante"){
+    console.log("ESTUDIANTES");
+    const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
+     Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
+      WHERE (((Year(FechaEntrega))='${req.body.anno}') AND ((EstadPrestamo.Categoria) like 'ESTUDIANTE'))
+      GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
+      HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
+    .then(([results, metadata]) => {
+        res.send(results);
+        console.log(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
+}
+else if(req.body.tipoUsuario === "Docente"){
+const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
+ Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
+   WHERE (((Year(FechaEntrega))='${req.body.anno}') AND ((EstadPrestamo.Categoria) like 'Docente'))
+   GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
+   HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
+.then(([results, metadata]) => {
+    res.send(results);
+    console.log(results);
+    })
+    .catch(err => {
+    res.status(500).send({
+    message:
+    err.message || "Ha ocurrido un error."
+    });
+    });
+}
+
+else if(req.body.tipoUsuario === "No Docente"){
+  const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
+   Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
+     WHERE (((Year(FechaEntrega))='${req.body.anno}') AND ((EstadPrestamo.Categoria) like 'No Docente'))
+     GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
+     HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
+  .then(([results, metadata]) => {
+      res.send(results);
+      console.log(results);
+      })
+      .catch(err => {
+      res.status(500).send({
+      message:
+      err.message || "Ha ocurrido un error."
+      });
+      });
+  }
 };
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
@@ -34,9 +104,5 @@ exports.delete = (req, res) => {
 };
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  
-};
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {
   
 };
