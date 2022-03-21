@@ -71,3 +71,37 @@ exports.docMasDemandados = async (req, res) => {
         });
     }
 };
+
+
+//Utilizacion de documentos
+exports.utilizacionDocs = async (req, res) => {
+    if(req.body.checkAll){
+        console.log("Todos");
+        const results   =  await sequelize.query (`SELECT Count(EstadPrestamo.IDLibro) AS Cantidad FROM EstadPrestamo Where (Year([FechaEntrega]))='${req.body.anno}'`)
+        .then(([results, metadata]) => {
+            res.send(results);
+            console.log(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
+    }
+    else {
+        const results   =  await sequelize.query (`SELECT Count(EstadPrestamo.IDLibro) AS Cantidad FROM EstadPrestamo LEFT JOIN libros ON
+        EstadPrestamo.IDLibro = libros.IDLibro WHERE (((libros.CodDomicilio)='${req.body.codDom}')
+        AND ((Year([FechaEntrega]))='${req.body.anno}'))`)
+        .then(([results, metadata]) => {
+            res.send(results);
+            console.log(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
+    }
+};

@@ -6,9 +6,11 @@ module.exports = app => {
     // Retrieve all Tutorials
  /*   router.get("/", documentos.findAll);
     // Retrieve a single Tutorial with id
-    router.get("/:id", documentos.findOne);
-    // Documentos mas demandados*/
+    router.get("/:id", documentos.findOne);*/
+    // Documentos mas demandados
     router.get("/docMasDem", documentos.docMasDemandados);
+    // Utilizacion de Documentos
+    router.get("/utilizDocs", documentos.utilizacionDocs);
     // Update a Tutorial with id
     router.put("/:id", documentos.update);
     // Delete a Tutorial with id
