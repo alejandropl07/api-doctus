@@ -105,3 +105,93 @@ exports.utilizacionDocs = async (req, res) => {
             });
     }
 };
+
+
+//Numero de documentos
+exports.numeroDeDocs = async (req, res) => {
+    var documentos  =   [];
+    //Total de ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CantTotalE From Ejemplares`))
+    /*.then(([results, metadata]) => {
+        res.send(results);
+        console.log(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });*/
+
+    //Sala A Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CSalaA From Ejemplares Where Ubicacion='Sala A'`))
+
+    //Sala B Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CSalaB From Ejemplares Where Ubicacion='Sala B'`))
+
+    //Sala D Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CSalaD From Ejemplares Where Ubicacion='Sala D'`))
+
+    //Sala E Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CSalaE From Ejemplares Where Ubicacion='Sala E'`))
+
+    //Sala F Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CSalaF From Ejemplares Where Ubicacion='Sala F'`))
+
+    //Sala G Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CSalaG From Ejemplares Where Ubicacion='Sala G'`))
+
+    //Almacen Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CAlmacen From Ejemplares Where Ubicacion='Almacén'`))
+
+    //Referencia Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CRef From Ejemplares Where Ubicacion='Referencia'`))
+
+    //Restauracion Ejemplares
+    documentos.push(await sequelize.query (`Select count(*) As CRest From Ejemplares Where Ubicacion='Restauración'`))
+
+        //Total de libros
+        documentos.push(await sequelize.query (`Select count(*) As CantTotal From Libros`))
+
+        //Sala A Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaA from ejemplares WHERE ubicacion ='Sala A'`))
+
+        //Sala B Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaB from ejemplares WHERE ubicacion ='Sala B'`))
+    
+        //Sala D Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaD from ejemplares WHERE ubicacion ='Sala D'`))
+    
+        //Sala E Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaF from ejemplares WHERE ubicacion ='Sala E'`))
+    
+        //Sala F Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaF from ejemplares WHERE ubicacion ='Sala F'`))
+    
+        //Sala G Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaG from ejemplares WHERE ubicacion ='Sala G'`))
+    
+        //Almacen Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CAlmacen from ejemplares WHERE ubicacion ='Almacén'`))
+    
+        //Referencia Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CRef from ejemplares WHERE ubicacion ='Referencia'`))
+    
+        //Restauracion Titulos
+        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CRest from ejemplares WHERE ubicacion ='Restauración'`))
+    
+        const doc0 = documentos[0];
+        const doc1 = documentos[1];
+        const doc2 = documentos[2];
+        const doc3 = documentos[3];
+        const doc4 = documentos[4];
+        const doc5 = documentos[5];
+        const doc6 = documentos[6];
+    console.log(doc0[0]);
+    console.log(doc1[0]);
+    console.log(doc2[0]);
+    console.log(doc3[0]);
+    console.log(doc4[0]);
+    console.log(doc5[0]);
+    console.log(doc6[0]);
+    };

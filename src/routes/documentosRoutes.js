@@ -11,6 +11,8 @@ module.exports = app => {
     router.get("/docMasDem", documentos.docMasDemandados);
     // Utilizacion de Documentos
     router.get("/utilizDocs", documentos.utilizacionDocs);
+    // Numero de Documentos
+    router.get("/numeroDeDocs", documentos.numeroDeDocs);
     // Update a Tutorial with id
     router.put("/:id", documentos.update);
     // Delete a Tutorial with id
