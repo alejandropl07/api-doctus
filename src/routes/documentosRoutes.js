@@ -13,6 +13,8 @@ module.exports = app => {
     router.get("/utilizDocs", documentos.utilizacionDocs);
     // Numero de Documentos
     router.get("/numeroDeDocs", documentos.numeroDeDocs);
+    // Documentos sin foliado
+    router.get("/docsSinFol", documentos.sinFoliado);
     // Update a Tutorial with id
     router.put("/:id", documentos.update);
     // Delete a Tutorial with id

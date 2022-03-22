@@ -180,6 +180,16 @@ exports.numeroDeDocs = async (req, res) => {
         //Restauracion Titulos
         documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CRest from ejemplares WHERE ubicacion ='Restauración'`))
     
+        if(documentos.length !== 0){
+            res.send(documentos);
+            }
+            else {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            };
+
         const doc0 = documentos[0];
         const doc1 = documentos[1];
         const doc2 = documentos[2];
@@ -195,3 +205,86 @@ exports.numeroDeDocs = async (req, res) => {
     console.log(doc5[0]);
     console.log(doc6[0]);
     };
+
+
+//Numero de documentos
+exports.sinFoliado = async (req, res) => {
+    var docsSinFoliado  =   [];
+    //Total de ejemplares sin foliado
+    docsSinFoliado.push(await sequelize.query (`select count(idEjemplar) AS CantTotalE From Ejemplares
+    Where IdEjemplar Not In(Select IdEjemplar From
+    Ejemplares Where (subdivision1 like '%Fol%') Or (subdivision2 like '%Fol%'))`))
+   
+    //Código L Titulos
+    docsSinFoliado.push(await sequelize.query (`Select Count(IdLibro) AS CantCodL From Libros
+    Where CodDomicilio Like 'L%'`))
+
+    //Código L Ejemplares
+    docsSinFoliado.push(await sequelize.query (`select count(idEjemplar) AS CantCodL,count(idlibro) From Ejemplares
+    Where (IdEjemplar Not In(Select IdEjemplar From
+    Ejemplares Where (subdivision1 like '%Fol%') Or
+    (subdivision2 like '%Fol%')) And
+    IdLibro in (Select idlibro from libros where coddomicilio like 'L%'))`))
+
+    //Código F Titulos
+    docsSinFoliado.push(await sequelize.query (`Select Count(IdLibro) AS CantCodF From Libros
+    Where (CodDomicilio Like 'F%') And (IdLibro Not in (Select idlibro where coddomicilio like 'Fol%'))`))
+
+    //Código F Ejemplares
+    docsSinFoliado.push(await sequelize.query (`select count(idEjemplar) AS CantCodF,count(idlibro) From Ejemplares
+    Where (IdEjemplar Not In(Select IdEjemplar From
+    Ejemplares Where (subdivision1 like '%Fol%') Or
+    (subdivision2 like '%Fol%')) And
+    IdLibro in (Select idlibro from libros where coddomicilio like 'F%'))`))
+
+    //Código S Titulos
+    docsSinFoliado.push(await sequelize.query (`Select Count(IdLibro) AS CantCodS From Libros
+    Where CodDomicilio Like 'S%'`))
+
+    //Código S Ejemplares
+    docsSinFoliado.push(await sequelize.query (`select count(idEjemplar) AS CantCodS,count(idlibro) From Ejemplares
+    Where (IdEjemplar Not In(Select IdEjemplar From
+    Ejemplares Where (subdivision1 like '%Fol%') Or
+    (subdivision2 like '%Fol%')) And
+    IdLibro in (Select idlibro from libros where coddomicilio like 'S%'))`))
+
+    //Código E Titulos
+    docsSinFoliado.push(await sequelize.query (`Select Count(IdLibro) AS CantCodE From Libros
+    Where CodDomicilio Like 'E%'`))
+
+    //Código E Ejemplares
+    docsSinFoliado.push(await sequelize.query (`select count(idEjemplar) AS CantCodE,count(idlibro) From Ejemplares
+    Where (IdEjemplar Not In(Select IdEjemplar From
+    Ejemplares Where (subdivision1 like '%Fol%') Or
+    (subdivision2 like '%Fol%')) And
+    IdLibro in (Select idlibro from libros where coddomicilio like 'E%'))`))
+
+        //Total de libros sin foliado
+        docsSinFoliado.push(await sequelize.query (`select count(idlibro) AS CantTotal from libros
+        Where idlibro not in(select idlibro from libros where (coddomicilio like '%Fol%'))`))
+
+        if(docsSinFoliado.length !== 0){
+        res.send(docsSinFoliado);
+        }
+        else {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        };
+          
+        const doc0 = docsSinFoliado[0];
+        const doc1 = docsSinFoliado[1];
+        const doc2 = docsSinFoliado[2];
+        const doc3 = docsSinFoliado[3];
+        const doc4 = docsSinFoliado[4];
+        const doc5 = docsSinFoliado[5];
+        const doc6 = docsSinFoliado[6];
+    console.log(doc0[0]);
+    console.log(doc1[0]);
+    console.log(doc2[0]);
+    console.log(doc3[0]);
+    console.log(doc4[0]);
+    console.log(doc5[0]);
+    console.log(doc6[0]);
+};
