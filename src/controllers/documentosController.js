@@ -29,9 +29,8 @@ exports.deleteAll = (req, res) => {
 };
 //Buscar los 20 documentos mas demandados por mes y año
 exports.docMasDemandados = async (req, res) => {
-    if(req.body.anno === "" && req.body.mes === ""){
-        console.log("Año y mes");
-        const results   =  await sequelize.query (`SELECT libros.IDLibro, Count(EstadPrestamo.IDLibro) AS Prestamos FROM EstadPrestamo INNER JOIN libros ON EstadPrestamo.IDLibro = libros.IDLibro GROUP BY libros.IDLibro ORDER BY Count(EstadPrestamo.IDLibro) DESC`)
+    if(req.query.anno === '' && req.query.mes === ''){
+        await sequelize.query (`SELECT TOP 20 libros.IDLibro, Count(EstadPrestamo.IDLibro) AS Prestamos FROM EstadPrestamo INNER JOIN libros ON EstadPrestamo.IDLibro = libros.IDLibro GROUP BY libros.IDLibro ORDER BY Count(EstadPrestamo.IDLibro) DESC`)
         .then(([results, metadata]) => {
             res.send(results);
             console.log(results);
@@ -43,9 +42,10 @@ exports.docMasDemandados = async (req, res) => {
             });
             });
     }
-    else if(req.body.mes === ""){
+    else if(req.query.mes === ''){
         console.log("Mes");
-        const results   =  await sequelize.query (`SELECT libros.IDLibro, Count(EstadPrestamo.IDLibro) AS Prestamos FROM EstadPrestamo INNER JOIN libros ON EstadPrestamo.IDLibro = libros.IDLibro WHERE (YEAR(EstadPrestamo.FechaEntrega)= '${req.body.anno}') GROUP BY libros.IDLibro ORDER BY Count(EstadPrestamo.IDLibro) DESC`)
+        console.log(req.query.anno);
+        await sequelize.query (`SELECT TOP 20 libros.IDLibro, Count(EstadPrestamo.IDLibro) AS Prestamos FROM EstadPrestamo INNER JOIN libros ON EstadPrestamo.IDLibro = libros.IDLibro WHERE (YEAR(EstadPrestamo.FechaEntrega)= '${req.query.anno}') GROUP BY libros.IDLibro ORDER BY Count(EstadPrestamo.IDLibro) DESC`)
         .then(([results, metadata]) => {
             res.send(results);
             console.log(results);
@@ -58,7 +58,7 @@ exports.docMasDemandados = async (req, res) => {
             });
     }
     else{
-    const results   =  await sequelize.query (`SELECT libros.IDLibro, Count(EstadPrestamo.IDLibro) AS Prestamos FROM EstadPrestamo INNER JOIN libros ON EstadPrestamo.IDLibro = libros.IDLibro WHERE (YEAR(EstadPrestamo.FechaEntrega)= '${req.body.anno}') AND (Month(FechaEntrega) LIKE '${req.body.mes}') GROUP BY libros.IDLibro ORDER BY Count(EstadPrestamo.IDLibro) DESC`)
+    await sequelize.query (`SELECT TOP 20 libros.IDLibro, Count(EstadPrestamo.IDLibro) AS Prestamos FROM EstadPrestamo INNER JOIN libros ON EstadPrestamo.IDLibro = libros.IDLibro WHERE (YEAR(EstadPrestamo.FechaEntrega)= '${req.query.anno}') AND (Month(FechaEntrega) LIKE '${req.query.mes}') GROUP BY libros.IDLibro ORDER BY Count(EstadPrestamo.IDLibro) DESC`)
     .then(([results, metadata]) => {
         res.send(results);
         console.log(results);

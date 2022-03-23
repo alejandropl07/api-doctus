@@ -5,8 +5,6 @@ module.exports = app => {
     router.post("/", libros.create);
     // Retrieve all Tutorials
     router.get("/", libros.findAll);
-    // Retrieve all published Tutorials
-    router.get("/published", libros.findAllPublished);
     // Retrieve a single Tutorial with id
     router.get("/:id", libros.findOne);
     // Update a Tutorial with id

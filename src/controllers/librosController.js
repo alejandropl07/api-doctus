@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 const libro = db.libros;
 const Op = db.Sequelize.Op;
@@ -24,17 +25,18 @@ exports.findAll = (req, res) => {
   });
 };
 // Find a single Tutorial with an id
-exports.findOne = async (req, res) => {
-  const id = req.params.id;
-  await libro.findByPk(id)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Libro with id=" + id
-      });
-    });
+exports.findOne = (req, res) => {
+    sequelize.query (`SELECT libros.Titulo FROM libros WHERE libros.IDLibro = '${req.params.id}'`)
+        .then(([results, metadata]) => {
+            res.send(results);
+            console.log(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
 };
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
