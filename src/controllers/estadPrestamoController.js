@@ -22,10 +22,10 @@ exports.findAll = (req, res) => {
 };
 // Find a single Tutorial with an id
 exports.prestamoPorUsuario = async (req, res) => {
-  if(req.body.tipoUsuario === "Todos" ){
+  if(req.query.tipoUsuario === '0'){
     console.log("TODOS");
-    const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes, Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
-      WHERE (Year(FechaEntrega)='${req.body.anno}') 
+    await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes, Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
+      WHERE (Year(FechaEntrega)='${req.query.anno}') 
       GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
       HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
     .then(([results, metadata]) => {
@@ -39,11 +39,11 @@ exports.prestamoPorUsuario = async (req, res) => {
         });
         });
 }
-else if(req.body.tipoUsuario === "Estudiante"){
+else if(req.query.tipoUsuario === '1'){
     console.log("ESTUDIANTES");
-    const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
+    await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
      Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
-      WHERE (((Year(FechaEntrega))='${req.body.anno}') AND ((EstadPrestamo.Categoria) like 'ESTUDIANTE'))
+      WHERE (((Year(FechaEntrega))='${req.query.anno}') AND ((EstadPrestamo.Categoria) like 'ESTUDIANTE'))
       GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
       HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
     .then(([results, metadata]) => {
@@ -57,10 +57,10 @@ else if(req.body.tipoUsuario === "Estudiante"){
         });
         });
 }
-else if(req.body.tipoUsuario === "Docente"){
-const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
+else if(req.query.tipoUsuario === '2'){
+  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
  Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
-   WHERE (((Year(FechaEntrega))='${req.body.anno}') AND ((EstadPrestamo.Categoria) like 'Docente'))
+   WHERE (((Year(FechaEntrega))='${req.query.anno}') AND ((EstadPrestamo.Categoria) like 'Docente'))
    GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
    HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
 .then(([results, metadata]) => {
@@ -75,10 +75,10 @@ const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(
     });
 }
 
-else if(req.body.tipoUsuario === "No Docente"){
-  const results   =  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
+else if(req.query.tipoUsuario === '3'){
+  await sequelize.query (`SELECT EstadPrestamo.Facultad, Month(FechaEntrega) AS Mes,
    Count(EstadPrestamo.Facultad) AS Cantidad FROM EstadPrestamo
-     WHERE (((Year(FechaEntrega))='${req.body.anno}') AND ((EstadPrestamo.Categoria) like 'No Docente'))
+     WHERE (((Year(FechaEntrega))='${req.query.anno}') AND ((EstadPrestamo.Categoria) like 'No Docente'))
      GROUP BY EstadPrestamo.Facultad, Month(FechaEntrega)
      HAVING (((EstadPrestamo.Facultad) Not like '')) ORDER BY EstadPrestamo.Facultad`)
   .then(([results, metadata]) => {
