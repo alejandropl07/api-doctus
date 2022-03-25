@@ -75,9 +75,9 @@ exports.docMasDemandados = async (req, res) => {
 
 //Utilizacion de documentos
 exports.utilizacionDocs = async (req, res) => {
-    if(req.body.checkAll){
+    if(req.query.checkAll){
         console.log("Todos");
-        const results   =  await sequelize.query (`SELECT Count(EstadPrestamo.IDLibro) AS Cantidad FROM EstadPrestamo Where (Year([FechaEntrega]))='${req.body.anno}'`)
+        await sequelize.query (`SELECT Count(EstadPrestamo.IDLibro) AS Cantidad FROM EstadPrestamo Where (Year([FechaEntrega]))='${req.query.anno}'`)
         .then(([results, metadata]) => {
             res.send(results);
             console.log(results);
@@ -90,9 +90,9 @@ exports.utilizacionDocs = async (req, res) => {
             });
     }
     else {
-        const results   =  await sequelize.query (`SELECT Count(EstadPrestamo.IDLibro) AS Cantidad FROM EstadPrestamo LEFT JOIN libros ON
-        EstadPrestamo.IDLibro = libros.IDLibro WHERE (((libros.CodDomicilio)='${req.body.codDom}')
-        AND ((Year([FechaEntrega]))='${req.body.anno}'))`)
+        await sequelize.query (`SELECT Count(EstadPrestamo.IDLibro) AS Cantidad FROM EstadPrestamo LEFT JOIN libros ON
+        EstadPrestamo.IDLibro = libros.IDLibro WHERE (((libros.CodDomicilio)='${req.query.codDom}')
+        AND ((Year([FechaEntrega]))='${req.query.anno}'))`)
         .then(([results, metadata]) => {
             res.send(results);
             console.log(results);
