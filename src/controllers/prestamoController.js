@@ -33,18 +33,22 @@ exports.findAll = (req, res) => {
   });
 };
 // BUSCA UN PRESTAMO POR UN CARNET Y UN CODIGO DE BARRAS
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   const ci = req.params.ci;
   const codBar = req.params.codBar;
-  libro.findByPk(id)
-    .then(data => {
-     res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Prestamo with ci=" + ci
-      });
-    });
+
+  await sequelize.query (`SELECT  TOP 1 prestamo.CodBarras, prestamo.CI, prestamo.FechaEntrega, prestamo.FechaDevolucion from prestamo
+  WHERE CodBarras LIKE ${codBar} AND CI LIKE ${ci} `)
+      .then(([results, metadata]) => {
+          res.send(results);
+          console.log(results);
+          })
+          .catch(err => {
+          res.status(500).send({
+          message:
+          err.message || "Ha ocurrido un error."
+          });
+          });
 };
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
@@ -52,27 +56,18 @@ exports.update = (req, res) => {
 };
 
 // ELIMINAR PRESTAMO POR UN CODIGO DE BARRAS
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const codBar = req.params.codBar;
-  prestamo.destroy({
-    where: { CodBarras: codBar }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Prestamo was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete Prestamo with id=${codBar}. Maybe Libro was not found!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete Libro with id=" + codBar
-      });
-    });
+  await sequelize.query (`DELETE  FROM prestamo WHERE CodBarras LIKE  ${codBar}`)
+      .then(([results, metadata]) => {
+          res.send(results);
+          })
+          .catch(err => {
+          res.status(500).send({
+          message:
+          err.message || "Ha ocurrido un error."
+          });
+          });
 };
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
