@@ -110,78 +110,271 @@ exports.utilizacionDocs = async (req, res) => {
 //Numero de documentos
 exports.numeroDeDocs = async (req, res) => {
     var documentos  =   [];
+    var documentosFinal  =   [];
     //Total de ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CantTotalE From Ejemplares`))
-    /*.then(([results, metadata]) => {
-        res.send(results);
-        console.log(results);
+    await sequelize.query (`Select count(*) As CantTotalE From Ejemplares`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
         })
         .catch(err => {
         res.status(500).send({
         message:
         err.message || "Ha ocurrido un error."
         });
-        });*/
+        });
 
     //Sala A Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CSalaA From Ejemplares Where Ubicacion='Sala A'`))
+    await sequelize.query (`Select count(*) As CSalaA From Ejemplares Where Ubicacion='Sala A'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Sala B Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CSalaB From Ejemplares Where Ubicacion='Sala B'`))
+    await sequelize.query (`Select count(*) As CSalaB From Ejemplares Where Ubicacion='Sala B'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+    })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Sala D Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CSalaD From Ejemplares Where Ubicacion='Sala D'`))
+    await sequelize.query (`Select count(*) As CSalaD From Ejemplares Where Ubicacion='Sala D'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
 
     //Sala E Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CSalaE From Ejemplares Where Ubicacion='Sala E'`))
+    await sequelize.query (`Select count(*) As CSalaE From Ejemplares Where Ubicacion='Sala E'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+    })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Sala F Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CSalaF From Ejemplares Where Ubicacion='Sala F'`))
+    await sequelize.query (`Select count(*) As CSalaF From Ejemplares Where Ubicacion='Sala F'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Sala G Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CSalaG From Ejemplares Where Ubicacion='Sala G'`))
+    await sequelize.query (`Select count(*) As CSalaG From Ejemplares Where Ubicacion='Sala G'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Almacen Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CAlmacen From Ejemplares Where Ubicacion='Almacén'`))
+    await sequelize.query (`Select count(*) As CAlmacen From Ejemplares Where Ubicacion='Almacén'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Referencia Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CRef From Ejemplares Where Ubicacion='Referencia'`))
+    await sequelize.query (`Select count(*) As CRef From Ejemplares Where Ubicacion='Referencia'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
     //Restauracion Ejemplares
-    documentos.push(await sequelize.query (`Select count(*) As CRest From Ejemplares Where Ubicacion='Restauración'`))
+    await sequelize.query (`Select count(*) As CRest From Ejemplares Where Ubicacion='Restauración'`)
+    .then(([results, metadata]) => {
+        documentos.push(results);
+        })
+        .catch(err => {
+        res.status(500).send({
+        message:
+        err.message || "Ha ocurrido un error."
+        });
+        });
 
         //Total de libros
-        documentos.push(await sequelize.query (`Select count(*) As CantTotal From Libros`))
+        await sequelize.query (`Select count(*) As CantTotal From Libros`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
 
         //Sala A Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaA from ejemplares WHERE ubicacion ='Sala A'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaA from ejemplares WHERE ubicacion ='Sala A'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
 
         //Sala B Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaB from ejemplares WHERE ubicacion ='Sala B'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaB from ejemplares WHERE ubicacion ='Sala B'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Sala D Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaD from ejemplares WHERE ubicacion ='Sala D'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaD from ejemplares WHERE ubicacion ='Sala D'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Sala E Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaF from ejemplares WHERE ubicacion ='Sala E'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaF from ejemplares WHERE ubicacion ='Sala E'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Sala F Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaF from ejemplares WHERE ubicacion ='Sala F'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaF from ejemplares WHERE ubicacion ='Sala F'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Sala G Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaG from ejemplares WHERE ubicacion ='Sala G'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CSalaG from ejemplares WHERE ubicacion ='Sala G'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Almacen Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CAlmacen from ejemplares WHERE ubicacion ='Almacén'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CAlmacen from ejemplares WHERE ubicacion ='Almacén'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Referencia Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CRef from ejemplares WHERE ubicacion ='Referencia'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CRef from ejemplares WHERE ubicacion ='Referencia'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
         //Restauracion Titulos
-        documentos.push(await sequelize.query (`SELECT Count(distinct IdLibro) As CRest from ejemplares WHERE ubicacion ='Restauración'`))
+        await sequelize.query (`SELECT Count(distinct IdLibro) As CRest from ejemplares WHERE ubicacion ='Restauración'`)
+        .then(([results, metadata]) => {
+            documentos.push(results);
+            })
+            .catch(err => {
+            res.status(500).send({
+            message:
+            err.message || "Ha ocurrido un error."
+            });
+            });
     
+        
+        documentosFinal.push(documentos[0][0]);
+        documentosFinal.push(documentos[1][0]);
+        documentosFinal.push(documentos[2][0]);
+        documentosFinal.push(documentos[3][0]);
+        documentosFinal.push(documentos[4][0]);
+        documentosFinal.push(documentos[5][0]);
+        documentosFinal.push(documentos[6][0]);
+        documentosFinal.push(documentos[7][0]);
+        documentosFinal.push(documentos[8][0]);
+        documentosFinal.push(documentos[9][0]);
+        documentosFinal.push(documentos[10][0]);
+        documentosFinal.push(documentos[11][0]);
+        documentosFinal.push(documentos[12][0]);
+        documentosFinal.push(documentos[13][0]);
+        documentosFinal.push(documentos[14][0]);
+        documentosFinal.push(documentos[15][0]);
+        documentosFinal.push(documentos[16][0]);
+        documentosFinal.push(documentos[17][0]);
+        documentosFinal.push(documentos[18][0]);
+        documentosFinal.push(documentos[19][0]);
+
         if(documentos.length !== 0){
-            res.send(documentos);
+            res.send(documentosFinal);
             }
             else {
             res.status(500).send({
@@ -189,21 +382,6 @@ exports.numeroDeDocs = async (req, res) => {
             err.message || "Ha ocurrido un error."
             });
             };
-
-        const doc0 = documentos[0];
-        const doc1 = documentos[1];
-        const doc2 = documentos[2];
-        const doc3 = documentos[3];
-        const doc4 = documentos[4];
-        const doc5 = documentos[5];
-        const doc6 = documentos[6];
-    console.log(doc0[0]);
-    console.log(doc1[0]);
-    console.log(doc2[0]);
-    console.log(doc3[0]);
-    console.log(doc4[0]);
-    console.log(doc5[0]);
-    console.log(doc6[0]);
     };
 
 
